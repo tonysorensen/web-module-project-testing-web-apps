@@ -9,11 +9,23 @@ test('renders without errors', ()=>{
 });
 
 test('renders the contact form header', ()=> {
-    
+    render (<ContactForm/>)
+    const header = screen.getByText(/contact form/i)
+    expect(header).toBeTruthy();
+    expect(header).toBeInTheDocument();
+    expect(header).toHaveTextContent(/contact form/i)
+
 });
 
 test('renders ONE error message if user enters less then 5 characters into firstname.', async () => {
-    
+    //First render the form. Then get the element. Then do the thing to the element then check the result! so grab the firstname field, simulate putting text in it and see what happens
+    render(<ContactForm/>)
+    const firstName = screen.getByPlaceholderText("Edd");
+
+
+    if (firstName.length<5){
+        expect(() => render(<ContactForm />)).toThrow()
+    }
 });
 
 test('renders THREE error messages if user enters no values into any fields.', async () => {
