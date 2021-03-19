@@ -33,13 +33,11 @@ test('renders ONE error message if user enters less then 5 characters into first
 });
 
 test('renders THREE error messages if user enters no values into any fields.', async () => {
-    // render(<ContactForm/>)
-    // const firstName = screen.getByPlaceholderText("Edd");
-    // const lastName = screen.getByPlaceholderText("Burke")
-    // const email = screen.getByLabelText("Email*")
-    // if(firstName.length <1 && lastName.length<1 && email.length>1){
-    //     expect(()=> render(<ContactForm/>)).toThrow()
-    // }
+    render(<ContactForm/>)
+    const submit = screen.getByTestId("submit")
+    userEvent.click(submit)
+    const error = screen.getAllByTestId("error")
+    expect(error).toHaveLength(3); // turns out that error is an array. test this by changing 3 to 2 or any other number and it breaks. good test.
 });
 
 test('renders ONE error message if user enters a valid first name and last name but no email.', async () => {
