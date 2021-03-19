@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+    fireEvent,
+    getByText,
     render,
     screen,
     waitFor
@@ -37,10 +39,22 @@ test('renders THREE error messages if user enters no values into any fields.', a
     const submit = screen.getByTestId("submit")
     userEvent.click(submit)
     const error = screen.getAllByTestId("error")
-    expect(error).toHaveLength(3); // turns out that error is an array. test this by changing 3 to 2 or any other number and it breaks. good test.
+    expect(error).toHaveLength(3); // turns out that error is an array, using getAllBy returns an arrau when there is one or more matches. test this by changing 3 to 2 or any other number and it breaks.
 });
 
 test('renders ONE error message if user enters a valid first name and last name but no email.', async () => {
+    render(<ContactForm/>)
+    const submit = screen.getByTestId("submit")
+    const firstNameInput = screen.getByLabelText("First Name*");
+    const lastNameInput = screen.getByLabelText("Last Name*");
+
+    userEvent.type(firstNameInput, "George");
+    userEvent.type(lastNameInput, "Jetson");
+
+    userEvent.click(submit)
+
+    const error = screen.getAllByTestId("error")
+    expect(error).toHaveLength(1);//Test passes with length 1. Length 2 causes fail.
 
 });
 
