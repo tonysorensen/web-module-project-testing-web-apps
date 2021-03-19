@@ -35,7 +35,7 @@ test('renders ONE error message if user enters less then 5 characters into first
 });
 
 test('renders THREE error messages if user enters no values into any fields.', async () => {
-    render(<ContactForm/>)
+    render( < ContactForm / > )
     const submit = screen.getByTestId("submit")
     userEvent.click(submit)
     const error = screen.getAllByTestId("error")
@@ -43,7 +43,7 @@ test('renders THREE error messages if user enters no values into any fields.', a
 });
 
 test('renders ONE error message if user enters a valid first name and last name but no email.', async () => {
-    render(<ContactForm/>)
+    render( < ContactForm / > )
     const submit = screen.getByTestId("submit")
     const firstNameInput = screen.getByLabelText("First Name*");
     const lastNameInput = screen.getByLabelText("Last Name*");
@@ -54,12 +54,20 @@ test('renders ONE error message if user enters a valid first name and last name 
     userEvent.click(submit)
 
     const error = screen.getAllByTestId("error")
-    expect(error).toHaveLength(1);//Test passes with length 1. Length 2 causes fail.
+    expect(error).toHaveLength(1); //Test passes with length 1. Length 2 causes fail.
 
 });
 
 test('renders "email must be a valid email address" if an invalid email is entered', async () => {
+    render( < ContactForm / > )
+    const submit = screen.getByTestId("submit")
+    const emailInput = screen.getByLabelText("Email*");
 
+    userEvent.type(emailInput, "George");
+    userEvent.click(submit)
+
+    const emailError = screen.getByText(/email must be a valid email address/)
+    expect(emailError).toBeInTheDocument();
 });
 
 test('renders "lastName is a required field" if an last name is not entered and the submit button is clicked', async () => {
